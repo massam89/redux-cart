@@ -39,7 +39,7 @@ const cartSlice = createSlice({
       }
     },
     replaceCard(state,action){
-      state.items = [...action.payload.items] || []
+      state.items = action.payload.items || []
       state.totalQuantity = action.payload.totalQuantity
     }
   }

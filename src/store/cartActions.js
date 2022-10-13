@@ -12,7 +12,7 @@ export const sendCartData = (cart) => {
 
     await fetch('https://react-http-850ff-default-rtdb.firebaseio.com/cart.json', {
       method: 'PUT',
-      body: JSON.stringify({items: cart.items, totalQuantity: cart.totalQuantity})
+      body: JSON.stringify({items: cart.items || [], totalQuantity: cart.totalQuantity})
     }).then(response => {
 
       if(!response.ok){
@@ -37,7 +37,6 @@ export const sendCartData = (cart) => {
 
 export const getCartData = () => {
   return async dispatch => {
-
     dispatch(uiActions.showNotification({
       status: 'pending',
       title: 'getting data ...', 
@@ -46,9 +45,10 @@ export const getCartData = () => {
     
     await fetch('https://react-http-850ff-default-rtdb.firebaseio.com/cart.json')
     .then(response => {
+
       if(!response.ok){
         throw new Error('error')
-      }
+      }     
 
       return response.json()
     })
@@ -60,7 +60,8 @@ export const getCartData = () => {
         message: 'getting data from server is succesfully'
       }))
     })
-    .catch(() => {
+    .catch((error) => {
+      console.log(error);
       dispatch(uiActions.showNotification({
         status: 'error',
         title: 'error!', 
